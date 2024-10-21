@@ -85,16 +85,20 @@ public class RegisterServlet extends HttpServlet {
         
         // Drafting the email with dynamic content
         String emailSubject = "Your Pollify OTP Verification Code";
-        String emailBody = "<html><body>"
-                + "<h2>Hello,</h2>"
-                + "<p>Thank you for registering at Pollify. Your OTP verification code is:</p>"
-                + "<h1 style='color:#3498db;'>" + otp + "</h1>"
-                + "<p>Please use this code to verify your email. The OTP is valid for 10 minutes.</p>"
-                + "<br>"
-                + "<p>If you did not request this, please ignore this email.</p>"
-                + "<p>Best Regards, <br>Pollify Team</p>"
+        String emailBody = "<html><body style='font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;'>"
+                + "<div style='max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; padding: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);'>"
+                + "<h2 style='color: #333; text-align: center;'>Welcome to Pollify!</h2>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Thank you for registering. Your OTP verification code is:</p>"
+                + "<h1 style='color: #3498db; font-size: 40px; margin: 20px 0; text-align: center; border: 2px solid #3498db; border-radius: 5px; padding: 10px;'>"
+                + otp + "</h1>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Please use this code to verify your email. The OTP is valid for <strong>10 minutes</strong>.</p>"
+                + "<hr style='border: 1px solid #e0e0e0; margin: 20px 0;'>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>If you did not request this, please ignore this email.</p>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Best Regards,<br><strong style='color: #3498db;'>Pollify Team</strong></p>"
+                + "</div>"
                 + "</body></html>";
-        
+
+
         draftEmail(recipient, emailSubject, emailBody);  // Draft the email
         sendMail();  // Send the email
     }
