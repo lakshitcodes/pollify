@@ -35,6 +35,6 @@
         <p class="resend">Resend One-Time Password<br><a href="#">Entered a wrong Email?</a></p>
     </div>
 
-    <script src="JS/OTP_script.js"></script>
+    <script src="js/OTP_script.js"></script>
 </body>
 </html>
