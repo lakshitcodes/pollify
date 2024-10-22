@@ -15,6 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 
 public class RegisterServlet extends HttpServlet {
 
@@ -51,7 +53,11 @@ public class RegisterServlet extends HttpServlet {
         }
         
         // Redirect to OTP verification page (assuming you have such a page)
-        response.sendRedirect("OtpVerification.jsp");
+       // In your RegisterServlet.java
+        HttpSession session = request.getSession();
+        session.setAttribute("email", email); // Store email in session
+        response.sendRedirect("OtpVerification.jsp"); // Redirect to OTP page
+
     }
 
     private String generateOTP() {
