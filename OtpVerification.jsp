@@ -53,6 +53,6 @@
             document.getElementById('otp').value = otp;
         }
     </script>
-    <script src="js/OTP_script.js"></script>
+    <script src="JS/OTP_script.js"></script>
 </body>
 </html>

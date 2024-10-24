@@ -18,7 +18,7 @@ public class VerifyOtpServlet extends HttpServlet {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/pollify";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = "30062004";
+    private static final String DB_PASS = "Shokeen@100";
     private Session newSession;
     private MimeMessage mimeMessage;
 
