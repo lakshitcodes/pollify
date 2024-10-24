@@ -1,5 +1,8 @@
 package com.pollify;
 
+import com.pollify.SendMail;
+
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,9 +23,10 @@ import javax.servlet.http.HttpSession;
 
 public class RegisterServlet extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/pollify"; 
-    private static final String DB_USER = "root"; 
-    private static final String DB_PASS = "Shokeen@100";
+    private static final String DB_URL = DBCredentials.getDbUrl();
+    private static final String DB_USER = DBCredentials.getDbUser();
+    private static final String DB_PASS = DBCredentials.getDbPass();
+
     
     private Session newSession;
     private MimeMessage mimeMessage;
@@ -44,10 +48,25 @@ public class RegisterServlet extends HttpServlet {
         
         // Save user data with OTP to the database
         saveUserToDB(username, email, password, role, otp, otpExpiryStr);
+
+        SendMail mailer = new SendMail();
         
         // Send OTP email to the user
+        String emailSubject = "Your Pollify OTP Verification Code";
+        String emailBody = "<html><body style='font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;'>"
+                + "<div style='max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; padding: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);'>"
+                + "<h2 style='color: #333; text-align: center;'>Welcome to Pollify!</h2>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Thank you for registering. Your OTP verification code is:</p>"
+                + "<h1 style='color: #3498db; font-size: 40px; margin: 20px 0; text-align: center; border: 2px solid #3498db; border-radius: 5px; padding: 10px;'>"
+                + otp + "</h1>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Please use this code to verify your email. The OTP is valid for <strong>10 minutes</strong>.</p>"
+                + "<hr style='border: 1px solid #e0e0e0; margin: 20px 0;'>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>If you did not request this, please ignore this email.</p>"
+                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Best Regards,<br><strong style='color: #3498db;'>Pollify Team</strong></p>"
+                + "</div>"
+                + "</body></html>";
         try {
-            sendOTPToEmail(email, otp);  // Send dynamic OTP via email
+            mailer.sendMailToUser(email, emailSubject,emailBody);  // Send dynamic OTP via email
         } catch (MessagingException e) {
             e.printStackTrace(); // Handle error appropriately
         }
@@ -86,57 +105,5 @@ public class RegisterServlet extends HttpServlet {
     }
 
     // Dynamically send OTP using the built-in email sending functionality
-    private void sendOTPToEmail(String recipient, String otp) throws MessagingException {
-        setupServerProperties();  // Setup mail server properties
-        
-        // Drafting the email with dynamic content
-        String emailSubject = "Your Pollify OTP Verification Code";
-        String emailBody = "<html><body style='font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;'>"
-                + "<div style='max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; padding: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);'>"
-                + "<h2 style='color: #333; text-align: center;'>Welcome to Pollify!</h2>"
-                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Thank you for registering. Your OTP verification code is:</p>"
-                + "<h1 style='color: #3498db; font-size: 40px; margin: 20px 0; text-align: center; border: 2px solid #3498db; border-radius: 5px; padding: 10px;'>"
-                + otp + "</h1>"
-                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Please use this code to verify your email. The OTP is valid for <strong>10 minutes</strong>.</p>"
-                + "<hr style='border: 1px solid #e0e0e0; margin: 20px 0;'>"
-                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>If you did not request this, please ignore this email.</p>"
-                + "<p style='font-size: 16px; color: #555; line-height: 1.5;'>Best Regards,<br><strong style='color: #3498db;'>Pollify Team</strong></p>"
-                + "</div>"
-                + "</body></html>";
-
-
-        draftEmail(recipient, emailSubject, emailBody);  // Draft the email
-        sendMail();  // Send the email
-    }
-
-    private void setupServerProperties() {
-        Properties properties = System.getProperties();
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        newSession = Session.getInstance(properties, null);
-    }
-
-    private void draftEmail(String recipient, String subject, String body) throws MessagingException {
-        mimeMessage = new MimeMessage(newSession);
-        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        mimeMessage.setSubject(subject);
-        MimeMultipart multipart = new MimeMultipart();
-
-        MimeBodyPart bodyPart = new MimeBodyPart();
-        bodyPart.setContent(body, "text/html");
-        multipart.addBodyPart(bodyPart);
-        mimeMessage.setContent(multipart);
-    }
-
-    private void sendMail() throws MessagingException {
-        String fromUser = "pollifyproject@gmail.com";
-        String fromUserEmailPassword = "sbqc hktj ghbn jaza"; // Use a secure method to store passwords
-        String emailHost = "smtp.gmail.com";
-
-        Transport transport = newSession.getTransport("smtp");
-        transport.connect(emailHost, fromUser, fromUserEmailPassword);
-        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
-        transport.close();
-    }
+    
 }
