@@ -2,40 +2,37 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <html>
 <head>
-    <title>Main - Pollify</title>
+    <title>Main Page - Pollify</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <nav>
+        <div class="logo">Pollify</div>
+        <div class="menu">
+            <a href="home.jsp">Home</a>
+            <a href="register.jsp">Register</a>
+            <a href="login.jsp">Login</a>
+        </div>
+    </nav>
 
-<% 
-    // Get the session
-    HttpSession session = request.getSession(false);
+    <div class="container">
+        <h2>Welcome to Pollify</h2>
 
-    // Check if session exists and retrieve username and role
-    String username = (session != null) ? (String) session.getAttribute("username") : null;
-    String role = (session != null) ? (String) session.getAttribute("role") : null;
-%>
+        <% 
+            // Check if session exists and retrieve username and role
+            String username = (session != null) ? (String) session.getAttribute("username") : null;
+            String role = (session != null) ? (String) session.getAttribute("role") : null;
 
-<nav>
-    <div class="logo">Pollify</div>
-    <div class="menu">
-        <a href="home.jsp">Home</a>
-        <a href="main.jsp">Main</a>
-        <a href="logout.jsp">Logout</a>
+            if (username != null && role != null) {
+        %>
+            <p>Hello, <%= username %>! Your role is: <%= role %>.</p>
+        <% 
+            } else {
+        %>
+            <p>Please <a href="login.jsp">log in</a> to access this page.</p>
+        <% 
+            }
+        %>
     </div>
-</nav>
-
-<div class="container">
-    <h2>Welcome to Pollify</h2>
-
-    <% if (username != null && role != null) { %>
-        <p>Welcome, <strong><%= username %></strong>!</p>
-        <p>Your role: <strong><%= role %></strong></p>
-    <% } else { %>
-        <p>You are not logged in. Please <a href="login.jsp">Login</a>.</p>
-    <% } %>
-
-</div>
-
 </body>
 </html>

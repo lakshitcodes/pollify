@@ -32,19 +32,19 @@ public class LoginServlet extends HttpServlet {
             conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
             // Step 2: Check if the user is registered and fetch their status
-            String query = "SELECT password, role, approved, otp_expiry FROM users WHERE username = ?";
+            String query = "SELECT password, role, status, otp_expiry FROM users WHERE username = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
             rs = ps.executeQuery();
 
             if (rs.next()) {
                 // User exists, check if approved
-                boolean isApproved = rs.getBoolean("approved");
+                String isApproved = rs.getString("status");
                 String storedPassword = rs.getString("password");
                 String role = rs.getString("role");
                 Timestamp otpExpiry = rs.getTimestamp("otp_expiry");
 
-                if (!isApproved) {
+                if (isApproved.equals("pending")) {
                     // Step 3: If not approved, resend OTP and redirect to OTP page
                     // Generate new OTP and update it in the database
                     int newOtp = (int) (Math.random() * 900000) + 100000;
@@ -85,8 +85,10 @@ public class LoginServlet extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ServletException("Database error.");
+            e.printStackTrace(); // Log the exception
+            request.setAttribute("errorMessage", "Database error: " + e.getMessage()); // Set a user-friendly message
+            request.getRequestDispatcher("login.jsp").forward(request, response); // Forward to login page
+            return;
         } finally {
             // Clean up database resources
             try {
