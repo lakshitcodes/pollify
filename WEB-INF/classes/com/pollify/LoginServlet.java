@@ -1,64 +1,105 @@
 package com.pollify;
-
+import com.pollify.SendMail;
 import com.pollify.DBCredentials;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.*;
 
 
 public class LoginServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+    // Database connection details
+    private static final String dbUrl = DBCredentials.getDbUrl();
+    private static final String dbUser = DBCredentials.getDbUser();
+    private static final String dbPassword = DBCredentials.getDbPass();
 
-    private static final String DB_URL = DBCredentials.getDbUrl();
-    private static final String DB_USER = DBCredentials.getDbUser();
-    private static final String DB_PASS = DBCredentials.getDbPass();
-    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-    
-        String email = request.getParameter("email");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-            String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, email);
-            statement.setString(2, password);
-            ResultSet resultSet = statement.executeQuery();
+            // Step 1: Establish a connection to the database
+            conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-            if (resultSet.next()) {
-                HttpSession session = request.getSession();
-                session.setAttribute("userEmail", email);
-                response.sendRedirect("welcome.jsp");
+            // Step 2: Check if the user is registered and fetch their status
+            String query = "SELECT password, role, approved, otp_expiry FROM users WHERE username = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // User exists, check if approved
+                boolean isApproved = rs.getBoolean("approved");
+                String storedPassword = rs.getString("password");
+                String role = rs.getString("role");
+                Timestamp otpExpiry = rs.getTimestamp("otp_expiry");
+
+                if (!isApproved) {
+                    // Step 3: If not approved, resend OTP and redirect to OTP page
+                    // Generate new OTP and update it in the database
+                    int newOtp = (int) (Math.random() * 900000) + 100000;
+                    String updateOtpQuery = "UPDATE users SET otp = ?, otp_expiry = ? WHERE username = ?";
+                    ps = conn.prepareStatement(updateOtpQuery);
+                    ps.setInt(1, newOtp);
+                    ps.setTimestamp(2, new Timestamp(System.currentTimeMillis() + 10 * 60 * 1000)); // 10-minute expiry
+                    ps.setString(3, username);
+                    ps.executeUpdate();
+
+                    // Send the new OTP via email (assuming you have a method for that)
+                    // EmailUtility.sendOTP(email, newOtp);
+
+                    request.setAttribute("errorMessage", "Your account is not verified. A new OTP has been sent.");
+                    request.getRequestDispatcher("OtpVerification.jsp").forward(request, response);
+                    return;
+                }
+
+                // Step 4: Check if the password is correct
+                if (storedPassword.equals(password)) {
+                    // Password is correct, proceed with login
+
+                    // Step 5: Create session and store user data
+                    HttpSession session = request.getSession();
+                    session.setAttribute("username", username);
+                    session.setAttribute("role", role);
+
+                    // Redirect to the home page or user dashboard
+                    response.sendRedirect("dashboard.jsp");
+                } else {
+                    // Password is incorrect, show error message
+                    request.setAttribute("errorMessage", "Incorrect password. Please try again.");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                }
             } else {
-                out.println("Invalid email or password. Please try again.");
+                // User does not exist, show error
+                request.setAttribute("errorMessage", "User not found. Please register.");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-
-            resultSet.close();
-            statement.close();
-            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            out.println("Database error: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            out.println("JDBC Driver not found: " + e.getMessage());
+            throw new ServletException("Database error.");
+        } finally {
+            // Clean up database resources
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("login.jsp");
+    }
 }
-
-
