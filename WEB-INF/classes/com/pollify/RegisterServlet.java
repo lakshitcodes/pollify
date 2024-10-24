@@ -1,6 +1,7 @@
 package com.pollify;
 
 import com.pollify.SendMail;
+import com.pollify.DBCredentials;
 
 
 import java.io.IOException;
