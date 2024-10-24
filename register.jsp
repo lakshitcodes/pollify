@@ -1,4 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%
+    if (session != null && session.getAttribute("username") != null) {
+        response.sendRedirect("dashboard.jsp"); // Redirect to dashboard if already logged in
+        return; // Stop further processing
+    }
+%>
 <html>
 <head>
     <title>Register - Pollify</title>

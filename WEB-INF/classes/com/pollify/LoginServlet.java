@@ -102,6 +102,13 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("login.jsp");
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("username") != null) {
+            // User is already logged in, redirect to dashboard or home page
+            response.sendRedirect("dashboard.jsp");
+        } else {
+            // No active session, proceed to login page
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
     }
 }
