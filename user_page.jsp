@@ -14,16 +14,7 @@
 <body>
     <!-- Navbar will be loaded from the template -->
 
-      <div id="navbar-placeholder">
-        <header>
-            <div class="navbar">
-                <h1>POLLIFY</h1>
-                <nav>
-                    <a href="#" onclick="loadContent('home')">Home</a>
-                    <a href="#">Log out</a>
-                </nav>
-            </div>
-        </header>
+      <div id="navbar-placeholder">      
     </div>
     
     
