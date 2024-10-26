@@ -5,33 +5,7 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <servlet>
-        <servlet-name>MainServlet</servlet-name>
-        <servlet-class>com.pollify.servlets.MainServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/main</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>com.pollify.RegisterServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RegisterServlet</servlet-name>
-        <url-pattern>/register</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>VerifyOtpServlet</servlet-name>
-        <servlet-class>com.pollify.VerifyOtpServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>VerifyOtpServlet</servlet-name>
-        <url-pattern>/verify-otp</url-pattern>
-    </servlet-mapping>
-
+    <!-- LoginServlet configuration -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.pollify.LoginServlet</servlet-class>
@@ -41,9 +15,40 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <!-- MainServlet configuration -->
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>com.pollify.servlets.MainServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/main</url-pattern>
+    </servlet-mapping>
 
+    <!-- RegisterServlet configuration -->
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>com.pollify.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <!-- VerifyOtpServlet configuration -->
+    <servlet>
+        <servlet-name>VerifyOtpServlet</servlet-name>
+        <servlet-class>com.pollify.VerifyOtpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VerifyOtpServlet</servlet-name>
+        <url-pattern>/verify-otp</url-pattern>
+    </servlet-mapping>
+
+    <!-- Default welcome file -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    
 
 </web-app>

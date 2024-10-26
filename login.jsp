@@ -2,7 +2,13 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%
     if (session != null && session.getAttribute("username") != null) {
-        response.sendRedirect("dashboard.jsp"); // Redirect to dashboard if already logged in
+        if(session.getAttribute("role").equals("admin")) {
+            response.sendRedirect("adminDashboard.jsp"); // Redirect to admin dashboard if admin
+        } else if(session.getAttribute("role").equals("candidate")) {
+            response.sendRedirect("candidateDashboard.jsp"); // Redirect to candidate dashboard if candidate
+        } else if(session.getAttribute("role").equals("voter")) {
+            response.sendRedirect("voterDashboard.jsp"); // Redirect to voter dashboard if voter
+        }
         return; // Stop further processing
     }
 %>

@@ -72,9 +72,15 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("username", username);
                     session.setAttribute("role", role);
 
-                    // Redirect to the home page or user dashboard
-                    response.sendRedirect("dashboard.jsp");
-                } else {
+                    // Redirect based on role
+                    if ("admin".equals(role)) {
+                        response.sendRedirect("adminDashboard.jsp");
+                    } else if ("candidate".equals(role)) {
+                        response.sendRedirect("candidateDashboard.jsp");
+                    } else if ("voter".equals(role)) {
+                        response.sendRedirect("voterDashboard.jsp");
+                    }
+                }else {
                     // Password is incorrect, show error message
                     request.setAttribute("errorMessage", "Incorrect password. Please try again.");
                     request.getRequestDispatcher("login.jsp").forward(request, response);

@@ -70,7 +70,7 @@ input[type="text"], input[type="password"],input[type="email"] {
     box-sizing: border-box;
 }
 
-input[type="submit"] {
+input[type="submit"]{
     background-color: #4A90E2;
     color: white;
     padding: 10px;
@@ -84,6 +84,7 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #357ABD;
 }
+
 
 .link {
     text-align: center;
