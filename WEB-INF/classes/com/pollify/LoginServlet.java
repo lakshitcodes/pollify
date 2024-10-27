@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
             conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
             // Step 2: Check if the user is registered and fetch their status
-            String query = "SELECT password, role, status, otp_expiry FROM users WHERE username = ?";
+            String query = "SELECT email,password, role, status, otp_expiry FROM users WHERE username = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
             rs = ps.executeQuery();
@@ -40,6 +40,7 @@ public class LoginServlet extends HttpServlet {
             if (rs.next()) {
                 // User exists, check if approved
                 String isApproved = rs.getString("status");
+                String email = rs.getString("email");
                 String storedPassword = rs.getString("password");
                 String role = rs.getString("role");
                 Timestamp otpExpiry = rs.getTimestamp("otp_expiry");
@@ -70,6 +71,7 @@ public class LoginServlet extends HttpServlet {
                     // Step 5: Create session and store user data
                     HttpSession session = request.getSession();
                     session.setAttribute("username", username);
+                    session.setAttribute("email", email);
                     session.setAttribute("role", role);
 
                     // Redirect based on role

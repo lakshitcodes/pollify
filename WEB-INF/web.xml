@@ -45,10 +45,19 @@
         <url-pattern>/verify-otp</url-pattern>
     </servlet-mapping>
 
+    <!-- ApplyCandidateServlet configuration -->
+    <servlet>
+        <servlet-name>ApplyCandidateServlet</servlet-name>
+        <servlet-class>com.pollify.ApplyCandidateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ApplyCandidateServlet</servlet-name>
+        <url-pattern>/applyCandidate</url-pattern>
+    </servlet-mapping>
+
     <!-- Default welcome file -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
 
 </web-app>
