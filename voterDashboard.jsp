@@ -8,6 +8,10 @@
 %>
 <script>
     alert("<%= status %>");
+    // Remove the status parameter from the URL
+    const url = new URL(window.location);
+    url.searchParams.delete('status'); // Remove the 'status' parameter
+    window.history.replaceState({}, document.title, url);
 </script>
 <%
     }
