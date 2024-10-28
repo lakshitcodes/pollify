@@ -79,6 +79,6 @@
         </div>
     </div>
 
-    <script src="js/user_page.js"></script>
+    <script src="JS/user_page.js"></script>
 </body>
 </html>

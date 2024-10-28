@@ -55,6 +55,28 @@
         <url-pattern>/applyCandidate</url-pattern>
     </servlet-mapping>
 
+    <!-- SetVotingPeriod Servlet configuration -->
+   <servlet>
+       <servlet-name>SetVotingPeriod</servlet-name>
+       <servlet-class>com.pollify.SetVotingPeriod</servlet-class>
+   </servlet>
+   <servlet-mapping>
+       <servlet-name>SetVotingPeriod</servlet-name>
+       <url-pattern>/SetVotingPeriod</url-pattern>
+   </servlet-mapping>
+
+
+   <!-- View Voting Period -->
+   <servlet>
+       <servlet-name>ViewVotingPeriods</servlet-name>
+       <servlet-class>com.pollify.ViewVotingPeriods</servlet-class>
+   </servlet>
+  
+   <servlet-mapping>
+       <servlet-name>ViewVotingPeriods</servlet-name>
+       <url-pattern>/viewVotingPeriods</url-pattern>
+   </servlet-mapping>
+
     <!-- Default welcome file -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
