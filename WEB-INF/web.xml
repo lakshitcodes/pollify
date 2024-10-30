@@ -118,6 +118,46 @@
        <servlet-name>ViewCandidate</servlet-name>
        <url-pattern>/viewCandidateList</url-pattern>
    </servlet-mapping>
+    <!-- View Candidate -->
+   <servlet>
+       <servlet-name>CandidateManifesto</servlet-name>
+       <servlet-class>com.pollify.ManifestoServletCandidate</servlet-class>
+   </servlet>
+  
+   <servlet-mapping>
+       <servlet-name>CandidateManifesto</servlet-name>
+       <url-pattern>/candidateManifesto</url-pattern>
+   </servlet-mapping>
+
+
+    <!-- Update Manifesto  -->
+   <servlet>
+        <servlet-name>UpdateManifestoServlet</servlet-name>
+        <servlet-class>com.pollify.UpdateManifestoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateManifestoServlet</servlet-name>
+        <url-pattern>/updateManifesto</url-pattern>
+    </servlet-mapping>
+    <!-- Delete Manifesto  -->
+    <servlet>
+        <servlet-name>DeleteManifestoServlet</servlet-name>
+        <servlet-class>com.pollify.DeleteManifestoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteManifestoServlet</servlet-name>
+        <url-pattern>/deleteManifesto</url-pattern>
+    </servlet-mapping>
+    <!-- Upload Manifesto  -->
+    <servlet>
+        <servlet-name>UploadManifestoServlet</servlet-name>
+        <servlet-class>com.pollify.UploadManifestoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadManifestoServlet</servlet-name>
+        <url-pattern>/uploadManifesto</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Default welcome file -->
     <welcome-file-list>

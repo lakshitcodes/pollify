@@ -97,10 +97,10 @@
         <h2>Pollify Voter</h2>
         <ul>
             <li><a href="voterDashboard.jsp" ><i class="fas fa-check-circle"></i> Vote</a></li>
-            <li><a href="CandidateList.jsp" ><i class="fas fa-list"></i> Candidate List</a></li>
-            <li><a href="Results.jsp" ><i class="fas fa-chart-bar"></i> Result</a></li>
-            <li><a href="viewManifesto.jsp" ><i class="fas fa-book"></i> Manifesto</a></li>
-            <li><a href="#" class="active"><i class="fas fa-user-plus"></i> Apply for Candidate</a></li>
+            <li><a href="CandidateList.jsp"><i class="fas fa-list"></i> Candidate List</a></li>
+            <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
+            <li><a href="#" class = "active"><i class="fas fa-book"></i> Manifesto</a></li>
+            <li><a href="applyCandidate.jsp"><i class="fas fa-user-plus"></i> Apply for Candidate</a></li>
         </ul>
     </div>
 
@@ -108,24 +108,8 @@
     <div class="content">
         <div id="content-area">
             <h1>Apply to be a Candidate</h1>
-        <div class="disclaimer">
-            <h2>Disclaimer</h2>
-            <p>Please read the following rules before applying:</p>
-            <ul>
-                <li>You must be a registered voter in the current election.</li>
-                <li>All applications will be reviewed by the admin.</li>
-                <li>You must provide a manifesto outlining your vision and goals.</li>
-                <li>Ensure that your manifesto does not contain any offensive or inappropriate content.</li>
-                <li>Only one application per user is allowed.</li>
-                <li>Applicants must be available for the duration of the voting period.</li>
-            </ul>
-            <p>By clicking "Apply," you agree to abide by these rules.</p>
         </div>
-        <form action="applyCandidate" method="POST">
-            <button type="submit" class="apply-button">Apply</button>
-        </form>
-        <div id="responseMessage"></div>
-        </div>
+        
     </div>
 </div>
 

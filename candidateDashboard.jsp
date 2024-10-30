@@ -20,14 +20,43 @@
     <title>Pollify - Interactive Sidebar</title>
     <link rel="stylesheet" href="css/user_page.css">
     <link rel="stylesheet" href="css/navbar.css">
-    <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    rel="stylesheet"
-/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        .disclaimer {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .disclaimer h2 {
+            color: #d9534f; /* Bootstrap danger color for emphasis */
+        }
+
+        .disclaimer ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .apply-button {
+            background-color: #5cb85c; /* Bootstrap success color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .apply-button:hover {
+            background-color: #4cae4c; /* Darker shade for hover effect */
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar will be loaded from the template -->
-    <%
+<%
     String username = (session != null) ? (String) session.getAttribute("username") : null; // Get the username if session exists
 %>
 
@@ -36,49 +65,36 @@
     <div class="menu">
         <% if(username==null){ %>
             <a href="home.jsp">Home</a>
-        <a href="register.jsp">Register</a>
-        <a href="login.jsp">Login</a>
+            <a href="register.jsp">Register</a>
+            <a href="login.jsp">Login</a>
         <% } %>
-        
+
         <% if (username != null) { %>
-            <a >Welcome, <%= username %>!</a>
+            <a>Welcome, <%= username %>!</a>
             <a href="logout.jsp">Logout</a> <!-- Link to logout servlet -->
         <% } %>
     </div>
 </nav>
 
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <h2>Pollify Candidate</h2>
-            <ul>
-                <li><a href="#" onclick="loadContent('introduction')">
-                    <i class="fas fa-check-circle"></i> Vote
-                </a></li>
-                <li><a href="#" onclick="loadContent('output')" class="active">
-                    <i class="fas fa-list"></i> Candidate List
-                </a></li>
-                <li><a href="#" onclick="loadContent('syntax')">
-                    <i class="fas fa-chart-bar"></i> Result
-                </a></li>
-                <li><a href="#" onclick="loadContent('manifesto')">
-                    <i class="fas fa-book"></i> Manifesto
-                </a></li>
-                <li><a href="#" onclick="loadContent('functions')">
-                    <i class="fas fa-user-plus"></i> Apply for Candidate
-                </a></li>
-            </ul>
-        </div>
-       
-        <!-- Content Area -->
-        <div class="content">
-            <div id="content-area">
-                <h1>Welcome to Pollify</h1>
-                <p>Select an option from the sidebar to learn more.</p>
-            </div>
-        </div>
+<div class="container">
+    <div class="sidebar">
+        <h2>Candidate</h2>
+        <ul>
+            <li><a href="#" class="active" ><i class="fas fa-check-circle"></i>Vote</a></li>
+            <li><a href="#"><i class="fa-solid fa-person-booth"></i>Register for Voting Period</a></li>
+            <li><a href="CandidateList.jsp"><i class="fas fa-list"></i> Candidate List</a></li>
+            <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
+            <li><a href="candidateManifesto"><i class="fas fa-book"></i> Manifesto</a></li>
+        </ul>
     </div>
 
-    <script src="JS/user_page.js"></script>
+    <!-- Content Area -->
+    <div class="content">
+        <div id="content-area">
+            
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

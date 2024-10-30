@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/castVote") // Make sure to add this annotation for mapping
 public class CastVote extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
