@@ -77,6 +77,37 @@
        <url-pattern>/viewVotingPeriods</url-pattern>
    </servlet-mapping>
 
+   <!-- Approve Candidate -->
+   <servlet>
+       <servlet-name>ApproveCandidate</servlet-name>
+       <servlet-class>com.pollify.ApproveCandidates</servlet-class>
+   </servlet>
+  
+   <servlet-mapping>
+       <servlet-name>ApproveCandidate</servlet-name>
+       <url-pattern>/approveCandidate</url-pattern>
+   </servlet-mapping>
+   <!-- Approval -->
+   <servlet>
+       <servlet-name>FinalApproval</servlet-name>
+       <servlet-class>com.pollify.ApprovedServlet</servlet-class>
+   </servlet>
+  
+   <servlet-mapping>
+       <servlet-name>FinalApproval</servlet-name>
+       <url-pattern>/approved</url-pattern>
+   </servlet-mapping>
+   <!-- Rejection -->
+   <servlet>
+       <servlet-name>Rejection</servlet-name>
+       <servlet-class>com.pollify.RejectedServlet</servlet-class>
+   </servlet>
+  
+   <servlet-mapping>
+       <servlet-name>Rejection</servlet-name>
+       <url-pattern>/rejected</url-pattern>
+   </servlet-mapping>
+
     <!-- Default welcome file -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
