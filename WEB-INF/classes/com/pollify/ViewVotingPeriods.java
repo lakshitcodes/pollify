@@ -36,7 +36,7 @@ public class ViewVotingPeriods extends HttpServlet {
         }
 
         List<VotingPeriod> votingPeriods = new ArrayList<>();
-        String sql = "SELECT * FROM votingperiod";
+        String sql = "SELECT * FROM VotingPeriod";
 
         try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
              PreparedStatement statement = connection.prepareStatement(sql);

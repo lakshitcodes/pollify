@@ -66,7 +66,7 @@ public class SetVotingPeriod extends HttpServlet {
                 // Set the parameters
                 statement.setString(1, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startDate));
                 statement.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endDate));
-                statement.setInt(3, 1); // Set is_active to 1 (active)
+                statement.setInt(3, 0); // Set is_active to 1 (active)
     
                 // Execute the insert
                 statement.executeUpdate();

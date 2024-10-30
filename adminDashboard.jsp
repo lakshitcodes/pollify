@@ -60,19 +60,19 @@
         <div class="sidebar">
             <h2>Admin</h2>
             <ul>
-                <li><a href="#" onclick="loadContent('setVotingPeriod')" class="active">
+                <li><a href="#" class="active">
                     <i class="fas fa-calendar"></i> Set Voting Period
                 </a></li>
-                <li><a href="#" onclick="loadContent('declareResult')">
+                <li><a href="declareResult" onclick="loadContent('declareResult')">
                     <i class="fas fa-trophy"></i> Declare Result
                 </a></li>
-                <li><a href="#" onclick="loadContent('approveCandidate')">
+                <li><a href="approveCandidate" onclick="loadContent('approveCandidate')">
                     <i class="fas fa-thumbs-up"></i> Approve Candidate
                 </a></li>
-                <li><a href="#" onclick="loadContent('viewVotingPeriods')">
+                <li><a href="viewVotingPeriods">
                     <i class="fas fa-history"></i> View Voting Periods
                 </a></li>
-                <li><a href="#" onclick="loadContent('sendNotification')">
+                <li><a href="sendNotification.jsp">
                     <i class="fas fa-bell"></i> Send Notification
                 </a></li>
             </ul>
@@ -81,9 +81,6 @@
         <!-- Content Area -->
         <div class="content">
             <div id="content-area">
-                <h1>Welcome to Pollify</h1>
-                <p>Select an option from the sidebar to learn more.</p>
-
                 <!-- Display success or error messages -->
                 <div>
                     <%
@@ -99,7 +96,7 @@
                 </div>
             </div>
 
-            <div id="voting-period-form" style="display:none;">
+            <div id="voting-period-form">
                 <h2>Set Voting Period</h2>
                 <form action="SetVotingPeriod" method="post">
                     <label for="start_time">Voting Start Time:</label>
@@ -114,68 +111,5 @@
         </div>
     </div>
 
-    <script>
-        function loadContent(page) {
-            const contentArea = document.getElementById('content-area');
-            const votingPeriodForm = document.getElementById('voting-period-form');
-            const links = document.querySelectorAll('.sidebar ul li a');
-    
-            // Remove 'active' class from all sidebar links
-            links.forEach(link => link.classList.remove('active'));
-    
-            // Add 'active' class to the clicked link
-            const activeLink = Array.from(links).find(link =>
-                link.getAttribute('onclick').includes(page)
-            );
-            if (activeLink) activeLink.classList.add('active');
-    
-            console.log(`Loading content for: ${page}`); // Debugging line
-    
-            // Load corresponding content based on the page parameter
-            switch (page) {
-                case 'declareResult':
-                    contentArea.innerHTML = `
-                        <h1>Declare Result</h1>
-                        <p>Declare the results of the voting here.</p>
-                    `;
-                    votingPeriodForm.style.display = 'none'; // Hide the form
-                    break;
-                case 'approveCandidate':
-                    contentArea.innerHTML = `
-                        <h1>Approve Candidate</h1>
-                        <p>Approve candidates for the election here.</p>
-                    `;
-                    votingPeriodForm.style.display = 'none'; // Hide the form
-                    break;
-                case 'ViewVotingPeriods':
-                    contentArea.innerHTML = `
-                        <h1>View Voting Periods</h1>
-                        <p>Review previous voting periods.</p>
-                        <iframe src="viewVotingPeriods" style="width: 100%; height: 400px; border: none;"></iframe>
-                    `;
-                    votingPeriodForm.style.display = 'none'; // Hide the form
-                    break;
-                case 'sendNotification':
-                    contentArea.innerHTML = `
-                        <h1>Send Notification</h1>
-                        <p>Send notifications to users about voting updates.</p>
-                    `;
-                    votingPeriodForm.style.display = 'none'; // Hide the form
-                    break;
-                case 'setVotingPeriod':
-                    contentArea.innerHTML = ''; // Clear the content area
-                    votingPeriodForm.style.display = 'block'; // Show the voting period form
-                    break;
-                default:
-                    contentArea.innerHTML = `
-                        <h1>404 Not Found</h1>
-                        <p>The page you are looking for does not exist.</p>
-                    `;
-                    votingPeriodForm.style.display = 'none'; // Hide the form
-                    break;
-            }
-        }
-    </script>
-    
 </body>
 </html>
