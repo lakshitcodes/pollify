@@ -157,6 +157,15 @@
         <servlet-name>UploadManifestoServlet</servlet-name>
         <url-pattern>/uploadManifesto</url-pattern>
     </servlet-mapping>
+    <!-- Find Active Polls  -->
+    <servlet>
+        <servlet-name>FindActivePolls</servlet-name>
+        <servlet-class>com.pollify.FindActivePolls</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindActivePolls</servlet-name>
+        <url-pattern>/findActivePolls</url-pattern>
+    </servlet-mapping>
 
 
     <!-- Default welcome file -->
