@@ -96,8 +96,8 @@
     <div class="sidebar">
         <h2>Pollify Voter</h2>
         <ul>
-            <li><a href="#" class="active" ><i class="fas fa-check-circle"></i> Vote</a></li>
-            <li><a href="CandidateList.jsp"><i class="fas fa-list"></i> Candidate List</a></li>
+            <li><a href="voterDashboard.jsp"><i class="fas fa-check-circle"></i> Vote</a></li>
+            <li><a href="#" class="active"><i class="fas fa-list"></i> Candidate List</a></li>
             <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
             <li><a href="manifesto.jsp"><i class="fas fa-book"></i> Manifesto</a></li>
             <li><a href="applyCandidate.jsp"><i class="fas fa-user-plus"></i> Apply for Candidate</a></li>
@@ -111,6 +111,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

@@ -108,6 +108,17 @@
        <url-pattern>/rejected</url-pattern>
    </servlet-mapping>
 
+    <!-- View Candidate -->
+   <servlet>
+       <servlet-name>ViewCandidate</servlet-name>
+       <servlet-class>com.pollify.VotePageServlet</servlet-class>
+   </servlet>
+  
+   <servlet-mapping>
+       <servlet-name>ViewCandidate</servlet-name>
+       <url-pattern>/viewCandidateList</url-pattern>
+   </servlet-mapping>
+
     <!-- Default welcome file -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
