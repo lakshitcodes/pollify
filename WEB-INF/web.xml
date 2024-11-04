@@ -239,6 +239,16 @@
         <servlet-name>CalculateResult</servlet-name>
         <url-pattern>/calculateResult</url-pattern> <!-- This URL pattern can be changed as needed -->
     </servlet-mapping>
+    <!-- Viewing Results in Candidate and Voters -->
+    <servlet>
+        <servlet-name>ViewResults</servlet-name>
+        <servlet-class>com.pollify.ViewResults</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewResults</servlet-name>
+        <url-pattern>/viewResults</url-pattern> <!-- This URL pattern can be changed as needed -->
+    </servlet-mapping>
 
     <!-- Default welcome file -->
     <welcome-file-list>

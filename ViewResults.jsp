@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.pollify.Candidate" %>
+<%@ page import="com.pollify.Result" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="java.net.URLDecoder" %>
@@ -166,35 +166,46 @@ header h1 {
 
     <!-- Content Area -->
     <div class="content">
-        <header>    
-            <h1>Candidate List</h1>
-        </header>
-        <%
-            List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates"); 
-        %>
-    
-        <section class="candidate-list">
-            <%
-                if (candidates != null && !candidates.isEmpty()) {
-                    for (Candidate candidate : candidates) {
-            %>
-                <div class="candidate-card">
-                    <h2>Candidate ID: <%= candidate.getId() %></h2>
-                    <p><strong>Username:</strong> <%= candidate.getName() %></p>
+        <h2>Declare Pending Results</h2>
+
+    <%
+    // Retrieve the list of candidate applications from the request
+    List<VotingPeriod> votingPeriods = (List<VotingPeriod>) session.getAttribute("votingPeriods");
+    if (votingPeriods != null && !votingPeriods.isEmpty()) {
+        for (VotingPeriod vp : votingPeriods) {
+%>
+        <div class="candidate-card">
+            <div class="candidate-info">
+                <div>
+                    <p class="candidate-name"> 🗳️ Voting Period Id : <%= vp.getId() %></p> <!-- Use getUsername() method -->
+                    <p class="candidate-description">Voting Period from <%= vp.getStartTime() %> to <%= vp.getEndTime() %></p> 
                 </div>
-            <%
-                    }
-                } else {
-            %>
-                <p>No candidates available.</p>
-            <%
-                }
-            %>
-        </section>
+            </div>
+            <div class="action-buttons">
+                <button class="approve-btn" onclick="approveCandidate('<%= vp.getId()%>')">Check Result</button>
+            </div>
+        </div>
+<%
+        }
+    } else {
+%>
+    <div>
+        <p>No Results Found.</p>
+    </div>
+<%
+    }
+%>
+
+
     </div>
     
 </div>
-
+<script>
+    function approveCandidate(pollId) {
+        // Redirect to the approve servlet with the username and email as query parameters
+        window.location.href = 'checkResult?pollId=' + encodeURIComponent(pollId) ;
+    }
+</script>
 
 </body>
 </html>
