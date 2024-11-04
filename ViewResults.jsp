@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.pollify.Result" %>
+<%@ page import="com.pollify.VotingPeriod" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="java.net.URLDecoder" %>
@@ -41,82 +42,112 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
     <style>
-        .disclaimer {
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        /* Your CSS for card design here */
+        :root {
+            --card-background: rgba(255, 255, 255, 0.7);
+            --primary-color: #4a90e2;
+            --secondary-color: #ff5f7e;
+            --text-color: #333;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --border-color: rgba(255, 255, 255, 0.4);
+            --transition-speed: 0.3s;
+            --blur: 10px;
+        }
+
+
+        .container {
+            width: 100%;
+            backdrop-filter: blur(var(--blur));
+            color: var(--text-color);
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .candidate-card {
+            background: var(--card-background);
             padding: 20px;
-            margin: 20px 0;
+            margin: 15px 0;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            backdrop-filter: blur(10px);
         }
 
-        .disclaimer h2 {
-            color: #d9534f; /* Bootstrap danger color for emphasis */
+        .candidate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .disclaimer ul {
-            list-style-type: disc;
-            margin-left: 20px;
+        .candidate-info {
+            display: flex;
+            align-items: center;
         }
 
-        .apply-button {
-            background-color: #5cb85c; /* Bootstrap success color */
-            color: white;
+        .candidate-photo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 15px;
+            flex-shrink: 0;
+            background-image: linear-gradient(135deg, #6b73ff, #000dff);
+        }
+
+        .candidate-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .candidate-description {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-buttons button {
             padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            color: #fff;
         }
 
-        .apply-button:hover {
-            background-color: #4cae4c; /* Darker shade for hover effect */
+        .approve-btn {
+            background: linear-gradient(135deg, var(--primary-color), #007aff);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.4);
         }
-        .candidate-list{
-            display: grid;
-            gap: 20px;
+
+        .reject-btn {
+            background: linear-gradient(135deg, var(--secondary-color), #ff4081);
+            box-shadow: 0 4px 8px rgba(255, 95, 126, 0.4);
         }
-        header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-}
 
-header h1 {
-    font-size: 26px;
-    font-weight: 600;
-    color: #333;
-}
-
-.candidate-card {
-    background: linear-gradient(135deg, #fff, #f7faff);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
-.candidate-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-}
-
-.candidate-card h2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #34495e;
-    margin-bottom: 10px;
-}
-
-.candidate-card p {
-    font-size: 14px;
-    color: #7f8c8d;
-}
-
+        .approve-btn:hover, .reject-btn:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
 <body>
