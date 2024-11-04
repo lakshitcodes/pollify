@@ -39,6 +39,3 @@ public class Result {
     public String getDeclaredAt() { return declaredAt; }
     public String getWinnerUsername() { return winnerUsername; }
 }
- {
-    
-}
