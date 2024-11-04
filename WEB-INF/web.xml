@@ -196,7 +196,7 @@
 
     <servlet-mapping>
         <servlet-name>EnterPoll</servlet-name>
-        <url-pattern>/EnterPoll</url-pattern>
+        <url-pattern>/enterPoll</url-pattern>
     </servlet-mapping>
 
     <!--Vote Page Servlet-->
@@ -208,6 +208,16 @@
     <servlet-mapping>
         <servlet-name>VotePageServlet</servlet-name>
         <url-pattern>/votePage</url-pattern> <!-- This URL pattern can be changed as needed -->
+    </servlet-mapping>
+    <!-- Casting Vote -->
+    <servlet>
+        <servlet-name>RegisterVote</servlet-name>
+        <servlet-class>com.pollify.RegisterVote</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RegisterVote</servlet-name>
+        <url-pattern>/registerVote</url-pattern> <!-- This URL pattern can be changed as needed -->
     </servlet-mapping>
 
     <!-- Default welcome file -->

@@ -16,7 +16,15 @@
 </head>
 <body>
     <h1>An Error Occurred</h1>
-    <p><%= request.getParameter("message") != null ? request.getParameter("message") : "Something went wrong!" %></p>
-    <a href="adminDashboard.jsp">Go Back to Home</a>
+    <p><%= session.getAttribute("errorMessage") != null ? session.getAttribute("errorMessage") : "Something went wrong!" %></p>
+    <% if ("voter".equals(session.getAttribute("role"))) { %>
+        <a href="voterDashboard.jsp" class="btn">Go to Dashboard</a> 
+    <% } %>
+    <% if ("candidate".equals(session.getAttribute("role"))) { %>
+        <a href="candidateDashboard.jsp" class="btn">Go to Dashboard</a> 
+    <% } %>
+    <% if ("admin".equals(session.getAttribute("role"))) { %>
+        <a href="adminDashboard.jsp" class="btn">Go to Dashboard</a>    
+    <% } %>
 </body>
 </html>

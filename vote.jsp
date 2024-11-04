@@ -260,7 +260,7 @@ header input[type="text"]:focus {
                                     <%= vp.isActive() ? "Open" : "Closed" %>
                                 </span>
                             </div>
-                            <form action="EnterPoll" method="GET" style="display: inline;">
+                            <form action="enterPoll" method="GET" style="display: inline;">
                                 <input type="hidden" name="pollId" value="<%= vp.getId() %>">
                                 <button type="submit" class="vote-btn">Vote Now</button>
                             </form>

@@ -112,166 +112,253 @@ header input[type="text"]:focus {
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
 }
 
-.poll-list {
-    display: grid;
-    gap: 20px;
-}
+        /* Your CSS for card design here */
+        :root {
+            --card-background: rgba(255, 255, 255, 0.7);
+            --primary-color: #4a90e2;
+            --secondary-color: #ff5f7e;
+            --text-color: #333;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --border-color: rgba(255, 255, 255, 0.4);
+            --transition-speed: 0.3s;
+            --blur: 10px;
+        }
 
-.poll-card {
-    background: linear-gradient(135deg, #fff, #f7faff);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-}
 
-.poll-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-}
+        .container {
+            width: 100%;
+            backdrop-filter: blur(var(--blur));
+            text-align: center;
+            color: var(--text-color);
+        }
 
-.poll-card h2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #34495e;
-    margin-bottom: 10px;
-}
+        h2 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
 
-.poll-card p {
-    font-size: 14px;
-    color: #7f8c8d;
-    margin-bottom: 15px;
-}
+        .candidate-card {
+            background: var(--card-background);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            backdrop-filter: blur(10px);
+        }
 
-.poll-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
+        .candidate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
 
-.time-remaining {
-    font-size: 12px;
-    color: #95a5a6;
-}
+        .candidate-info {
+            display: flex;
+            align-items: center;
+        }
 
-.status {
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 20px;
-    color: #fff;
-    font-weight: 500;
-}
+        .candidate-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
 
-.status.open {
-    background-color: #27ae60;
-}
+        .candidate-description {
+            font-size: 16px;
+            color: #555;
+            margin-top: 5px;
+            /* margin-left: -30px; */
+            opacity: 0.8;
+        }
 
-.status.closing-soon {
-    background-color: #e74c3c;
-}
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
 
-.vote-btn {
-    padding: 12px 25px;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background 0.3s;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+        .action-buttons button ,.final-btn{
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            color: #fff;
+        }
 
-.vote-btn:hover {
-    background: linear-gradient(135deg, #2980b9, #3498db);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        .approve-btn.selected {
+            background: linear-gradient(135deg, #5cb85c, #4cae4c); /* Highlight color */
+        }
+
+        .approve-btn:not(.selected) {
+            background: rgba(0, 122, 255, 0.5); /* Dull color */
+            opacity: 0.6; /* Optional: make it more transparent */
+            cursor: not-allowed; /* Optional: change cursor to indicate it's not clickable */
+        }
+        .approve-btn.selected:hover,.approve-btn:hover, .final-btn:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .vote-button-container {
+    text-align: right; /* Aligns the button to the right */
+    margin-top: 20px; /* Adds space above the button */
 }
+    .final-btn {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #4a90e2, #007aff);
+        box-shadow: 0 4px 8px rgba(74, 144, 226, 0.4); 
+        color: white; border: none; 
+        border-radius: 5px; 
+        cursor: pointer;
+        width: 200px;
+    }
     </style>
 </head>
 <body>
-<%
-    String username = (session != null) ? (String) session.getAttribute("username") : null; // Get the username if session exists
-%>
-
-<nav>
-    <div class="logo">Pollify</div>
-    <div class="menu">
-        <% if(username==null){ %>
-            <a href="home.jsp">Home</a>
-            <a href="register.jsp">Register</a>
-            <a href="login.jsp">Login</a>
-        <% } %>
-
-        <% if (username != null) { %>
-            <a>Welcome, <%= username %>!</a>
-            <a href="logout.jsp">Logout</a> <!-- Link to logout servlet -->
-        <% } %>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="sidebar">
-        <% if ("voter".equals(session.getAttribute("role"))) { %>
-        <h2>Pollify Voter</h2>
-        <ul>
-            <li><a href="#" class="active"><i class="fas fa-check-circle"></i> Vote</a></li>
-            <li><a href="viewCandidate"><i class="fas fa-list"></i> Candidate List</a></li>
-            <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
-            <li><a href="viewManifesto.jsp"><i class="fas fa-book"></i> Manifesto</a></li>
-            <li><a href="applyCandidate.jsp"><i class="fas fa-user-plus"></i> Apply for Candidate</a></li>
-        </ul>
-        <% } %>
-        <% if ("candidate".equals(session.getAttribute("role"))) { %>
-            <h2>Candidate</h2>
-        <ul>
-            <li><a href="#" class="active"><i class="fas fa-check-circle"></i>Vote</a></li>
-            <li><a href="#"><i class="fa-solid fa-person-booth"></i>Register for Voting Period</a></li>
-            <li><a href="CandidateList.jsp"><i class="fas fa-list"></i> Candidate List</a></li>
-            <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
-            <li><a href="candidateManifesto"><i class="fas fa-book"></i> Manifesto</a></li>
-        </ul>
-        <% } %>
-    </div>
-
-    <!-- Content Area -->
+    <% 
+        String username = (session != null) ? (String) session.getAttribute("username") : null; 
+        VotingPeriod vp = (VotingPeriod) request.getAttribute("votingPeriod");
+        List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates");    
+    %>
     
-    <div class="content">
-        <% VotingPeriod vp = <VotingPeriod> request.getAttribute("votingPeriod");
-            List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates");    
-        %>
-
-                <div id="content-area">
-                    <header>
-                        <h1>Poll ID: <%= vp.getId() %></h1>
-                        <p>Voting Period from <%= vp.getStartTime() %> to <%= vp.getEndTime() %></p>
-                    </header>
-                    <section class="candidate-list">
-                        <%
-                            if (candidates != null && !candidates.isEmpty()) {
-                                for (Candidate candidate : candidates) {
-                        %>
-                            <div class="candidate-card">
-                                <h2>Candidate ID: <%= candidate.getId() %></h2>
-                                <p><strong>Username:</strong> <%= candidate.getName() %></p>
+    <nav>
+        <div class="logo">Pollify</div>
+        <div class="menu">
+            <% if(username == null) { %>
+                <a href="home.jsp">Home</a>
+                <a href="register.jsp">Register</a>
+                <a href="login.jsp">Login</a>
+            <% } else { %>
+                <a>Welcome, <%= username %>!</a>
+                <a href="logout.jsp">Logout</a>
+            <% } %>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="sidebar">
+            <% if ("voter".equals(session.getAttribute("role"))) { %>
+                <h2>Pollify Voter</h2>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-check-circle"></i> Vote</a></li>
+                    <li><a href="viewCandidate"><i class="fas fa-list"></i> Candidate List</a></li>
+                    <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
+                    <li><a href="viewManifesto.jsp"><i class="fas fa-book"></i> Manifesto</a></li>
+                    <li><a href="applyCandidate.jsp"><i class="fas fa-user-plus"></i> Apply for Candidate</a></li>
+                </ul>
+            <% } %>
+        </div>
+    
+        <div class="content">
+            <div id="content-area">
+                <header>
+                    <h1>Poll ID: <%= vp.getId() %></h1>
+                    <p>Voting Period from <%= vp.getStartTime() %> to <%= vp.getEndTime() %></p>
+                </header>
+                <section class="candidate-list">
+                    <%
+                        if (candidates != null && !candidates.isEmpty()) {
+                            for (Candidate candidate : candidates) {
+                    %>
+                        <div class="candidate-card">
+                            <div class="candidate-info">
+                                <div>
+                                    <p class="candidate-name" id="<%= candidate.getId() %>">Candidate ID: <%= candidate.getId() %></p>
+                                    <p class="candidate-description"><strong>Username:</strong> <%= candidate.getName() %></p> 
+                                </div>
                             </div>
-                        <%
-                                }
-                            } else {
-                        %>
-                            <p>No candidates available.</p>
-                        <%
+                            <div class="action-buttons">
+                                <button class="approve-btn">Select</button>
+                            </div>
+                        </div>
+                    <%
                             }
-                        %>
-                    </section>
-                </div>
-                
+                        } else {
+                    %>
+                        <p>No candidates available.</p>
+                    <%
+                        }
+                    %>
+                    <hr style="border-top: 1px solid rgb(162, 158, 158); margin: 20px 0;">
+                    <div class="vote-button-container">
+                        <button id="vote-button" class="final-btn">Vote</button>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
-    
-</div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const voteButtons = document.querySelectorAll(".approve-btn");
 
+    voteButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            // Check if the button is already selected
+            if (button.classList.contains("selected")) {
+                // Deselect the button
+                button.classList.remove("selected");
+                button.textContent = "Select"; // Reset text to default
+                button.style.backgroundColor = ""; // Reset background color
+            } else {
+                // Deselect other buttons
+                voteButtons.forEach(btn => {
+                    btn.classList.remove("selected");
+                    btn.textContent = "Select"; // Reset to default
+                    btn.style.backgroundColor = ""; // Reset to default
+                });
+
+                // Select the current button
+                button.classList.add("selected");
+                button.textContent = "Selected"; // Change text to indicate selection
+                button.style.backgroundColor = "#4cae4c"; // Highlight color for the selected button
+            }
+        });
+    });
+
+    // Vote button click event
+    document.getElementById("vote-button").addEventListener("click", function () {
+        let selectedCandidateId = null;
+
+        // Find the selected candidate
+        voteButtons.forEach(button => {
+            if (button.classList.contains("selected")) {
+                // Get the candidate ID from the candidate-name paragraph in the same candidate-card
+                const candidateCard = button.closest('.candidate-card');
+                console.log("Candidate card found:", candidateCard); // Debug log
+
+                const candidateNameElement = candidateCard.querySelector('.candidate-name');
+                console.log("Candidate name element found:", candidateNameElement); // Debug log
+
+                // Extract the ID directly from the text content since it's displayed as "Candidate ID: X"
+                const candidateIdText = candidateNameElement.textContent;
+                console.log("Candidate ID text:", candidateIdText); // Debug log
+
+                // Extract just the number from "Candidate ID: X"
+                selectedCandidateId = candidateIdText.split(":")[1].trim();
+                console.log("Selected candidate ID:", selectedCandidateId);
+            }
+        });
+
+        if (selectedCandidateId) {
+            const url = "registerVote?candidateId="+selectedCandidateId;
+            window.location.href = url;
+        } else {
+            alert('Please select a candidate to vote for.');
+        }
+    });
+});
+
+</script>
+    
 </body>
 </html>
