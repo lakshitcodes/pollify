@@ -20,9 +20,9 @@
     }
 %>
 <%
-    if (session != null && session.getAttribute("username") != null) {
-        if (!"voter".equals(session.getAttribute("role"))) { // Check if the user is a voter
-            response.sendRedirect("accessDenied.jsp"); // Redirect if the role is not voter
+   if (session != null && session.getAttribute("username") != null) {
+        if ("admin".equals(session.getAttribute("role"))) { // Check if the user is a voter
+             response.sendRedirect("accessDenied.jsp"); // Redirect if the role is not voter
             return; // Stop further processing
         }
     } else {
@@ -72,6 +72,51 @@
         .apply-button:hover {
             background-color: #4cae4c; /* Darker shade for hover effect */
         }
+        .candidate-list{
+            display: grid;
+            gap: 20px;
+        }
+        header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+}
+
+.candidate-card {
+    background: linear-gradient(135deg, #fff, #f7faff);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.candidate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.candidate-card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+.candidate-card p {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
     </style>
 </head>
 <body>
@@ -97,6 +142,7 @@
 
 <div class="container">
     <div class="sidebar">
+        <% if ("voter".equals(session.getAttribute("role"))) { %>
         <h2>Pollify Voter</h2>
         <ul>
             <li><a href="findActivePolls"><i class="fas fa-check-circle"></i> Vote</a></li>
@@ -105,11 +151,24 @@
             <li><a href="viewManifesto.jsp"><i class="fas fa-book"></i> Manifesto</a></li>
             <li><a href="applyCandidate.jsp"><i class="fas fa-user-plus"></i> Apply for Candidate</a></li>
         </ul>
+        <% } %>
+        <% if ("candidate".equals(session.getAttribute("role"))) { %>
+            <h2>Candidate</h2>
+        <ul>
+            <li><a href="findActivePolls"><i class="fas fa-check-circle"></i>Vote</a></li>
+            <li><a href="#"><i class="fa-solid fa-person-booth"></i>Register for Voting Period</a></li>
+            <li><a href="#" class="active"><i class="fas fa-list"></i> Candidate List</a></li>
+            <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
+            <li><a href="candidateManifesto"><i class="fas fa-book"></i> Manifesto</a></li>
+        </ul>
+        <% } %>
     </div>
 
     <!-- Content Area -->
     <div class="content">
-        <h1>Candidate List</h1>
+        <header>    
+            <h1>Candidate List</h1>
+        </header>
         <%
             List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates"); 
         %>
@@ -121,8 +180,7 @@
             %>
                 <div class="candidate-card">
                     <h2>Candidate ID: <%= candidate.getId() %></h2>
-                    <p><strong>Username:</strong> <%= candidate.getUsername() %></p>
-                    <p><strong>Email:</strong> <%= candidate.getEmail() %></p>
+                    <p><strong>Username:</strong> <%= candidate.getName() %></p>
                 </div>
             <%
                     }

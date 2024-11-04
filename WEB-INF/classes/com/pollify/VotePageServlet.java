@@ -1,5 +1,6 @@
 package com.pollify;
 import com.pollify.DBCredentials;
+import com.pollify.Candidate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +38,7 @@ public class VotePageServlet extends HttpServlet {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
+                String name = resultSet.getString("username");
                 candidates.add(new Candidate(id, name));
             }
 

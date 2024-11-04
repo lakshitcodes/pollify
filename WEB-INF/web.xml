@@ -178,6 +178,17 @@
         <url-pattern>/SubmitVoteServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- View Candidate List -->
+    <servlet>
+        <servlet-name>ViewCandidate</servlet-name>
+        <servlet-class>com.pollify.ViewCandidate</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewCandidate</servlet-name>
+        <url-pattern>/viewCandidate</url-pattern>
+    </servlet-mapping>
+
     <!--Vote Page Servlet-->
     <servlet>
         <servlet-name>VotePageServlet</servlet-name>
