@@ -188,6 +188,16 @@
         <servlet-name>ViewCandidate</servlet-name>
         <url-pattern>/viewCandidate</url-pattern>
     </servlet-mapping>
+    <!-- Enter Poll -->
+    <servlet>
+        <servlet-name>EnterPoll</servlet-name>
+        <servlet-class>com.pollify.EnterPoll</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EnterPoll</servlet-name>
+        <url-pattern>/EnterPoll</url-pattern>
+    </servlet-mapping>
 
     <!--Vote Page Servlet-->
     <servlet>

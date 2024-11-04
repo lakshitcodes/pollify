@@ -2,6 +2,7 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.pollify.VotingPeriod" %>
+<%@ page import="com.pollify.Candidate" %>
 <%@ page import="java.net.URLDecoder" %>
 <%
     String status = request.getParameter("status");
@@ -239,38 +240,32 @@ header input[type="text"]:focus {
     <!-- Content Area -->
     
     <div class="content">
-        <% List<VotingPeriod> votingPeriods = (List<VotingPeriod>) request.getAttribute("activeVotingPeriods"); %>
+        <% VotingPeriod vp = <VotingPeriod> request.getAttribute("votingPeriod");
+            List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates");    
+        %>
 
                 <div id="content-area">
                     <header>
-                        <h1>Active Polls (Total: <%= (votingPeriods != null ? votingPeriods.size() : 0) %>)</h1>
-                        <input type="text" placeholder="🔍 Search polls...">
+                        <h1>Poll ID: <%= vp.getId() %></h1>
+                        <p>Voting Period from <%= vp.getStartTime() %> to <%= vp.getEndTime() %></p>
                     </header>
-                    <section class="poll-list">
+                    <section class="candidate-list">
                         <%
-                            if (votingPeriods != null && !votingPeriods.isEmpty()) {
-                                for (VotingPeriod vp : votingPeriods) {
+                            if (candidates != null && !candidates.isEmpty()) {
+                                for (Candidate candidate : candidates) {
                         %>
-                        <div class="poll-card">
-                            <h2>Poll ID: <%= vp.getId() %></h2>
-                            <p>Voting Period from <%= vp.getStartTime() %> to <%= vp.getEndTime() %></p>
-                            <div class="poll-info">
-                                <span class="time-remaining">Ends at: <%= vp.getEndTime() %></span>
-                                <span class="status <%= vp.isActive() ? "open" : "closed" %>">
-                                    <%= vp.isActive() ? "Open" : "Closed" %>
-                                </span>
+                            <div class="candidate-card">
+                                <h2>Candidate ID: <%= candidate.getId() %></h2>
+                                <p><strong>Username:</strong> <%= candidate.getName() %></p>
                             </div>
-                            <form action="EnterPoll" method="GET" style="display: inline;">
-                                <input type="hidden" name="pollId" value="<%= vp.getId() %>">
-                                <button type="submit" class="vote-btn">Vote Now</button>
-                            </form>
-                        </div>
-                        <% 
-                                } // end for loop
-                            } else { 
+                        <%
+                                }
+                            } else {
                         %>
-                        <p>No active polls available at the moment.</p>
-                        <% } %>
+                            <p>No candidates available.</p>
+                        <%
+                            }
+                        %>
                     </section>
                 </div>
                 
