@@ -3,7 +3,6 @@ package com.pollify;
 import com.pollify.DBCredentials;
 import com.pollify.VotingPeriod;
 
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,14 +28,14 @@ public class FindActivePolls extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        // Check if the user is logged in and is admin
-        if (session == null || session.getAttribute("username") == null || "admin".equals(session.getAttribute("role"))) {
+        // Check if the user is logged in and is a voter
+        if (session == null || session.getAttribute("username") == null || !"voter".equals(session.getAttribute("role"))) {
             response.sendRedirect("accessDenied.jsp");
             return;
         }
 
         List<VotingPeriod> activeVotingPeriods = new ArrayList<>();
-        String sql = "SELECT * FROM VotingPeriod WHERE is_active = 1";
+        String sql = "SELECT * FROM votingperiod WHERE is_active = 1";  // Make sure the table name is correct
 
         try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
              PreparedStatement statement = connection.prepareStatement(sql);

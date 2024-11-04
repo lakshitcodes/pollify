@@ -29,7 +29,7 @@ public class VotePageServlet extends HttpServlet {
         }
 
         List<Candidate> candidates = new ArrayList<>();
-        String sql = "SELECT * FROM users WHERE role = 'candidate'"; // Adjust according to your table structure
+        String sql = "SELECT * FROM users WHERE role = 'candidate'"; 
 
         try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
              PreparedStatement statement = connection.prepareStatement(sql);

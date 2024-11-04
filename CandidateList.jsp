@@ -1,6 +1,9 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.pollify.Candidate" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="java.net.URLDecoder" %>
+
 <%
     String status = request.getParameter("status");
     if (status != null) {
@@ -96,7 +99,7 @@
     <div class="sidebar">
         <h2>Pollify Voter</h2>
         <ul>
-            <li><a href="vote.jsp"><i class="fas fa-check-circle"></i> Vote</a></li>
+            <li><a href="findActivePolls"><i class="fas fa-check-circle"></i> Vote</a></li>
             <li><a href="#" class="active"><i class="fas fa-list"></i> Candidate List</a></li>
             <li><a href="Results.jsp"><i class="fas fa-chart-bar"></i> Result</a></li>
             <li><a href="viewManifesto.jsp"><i class="fas fa-book"></i> Manifesto</a></li>
@@ -106,10 +109,32 @@
 
     <!-- Content Area -->
     <div class="content">
-        <div id="content-area">
-            
-        </div>
+        <h1>Candidate List</h1>
+        <%
+            List<Candidate> candidates = (List<Candidate>) request.getAttribute("candidates"); 
+        %>
+    
+        <section class="candidate-list">
+            <%
+                if (candidates != null && !candidates.isEmpty()) {
+                    for (Candidate candidate : candidates) {
+            %>
+                <div class="candidate-card">
+                    <h2>Candidate ID: <%= candidate.getId() %></h2>
+                    <p><strong>Username:</strong> <%= candidate.getUsername() %></p>
+                    <p><strong>Email:</strong> <%= candidate.getEmail() %></p>
+                </div>
+            <%
+                    }
+                } else {
+            %>
+                <p>No candidates available.</p>
+            <%
+                }
+            %>
+        </section>
     </div>
+    
 </div>
 
 

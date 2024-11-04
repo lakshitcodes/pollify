@@ -167,6 +167,27 @@
         <url-pattern>/findActivePolls</url-pattern>
     </servlet-mapping>
 
+    <!-- Submit Vote -->
+    <servlet>
+        <servlet-name>SubmitVoteServlet</servlet-name>
+        <servlet-class>com.pollify.SubmitVoteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SubmitVoteServlet</servlet-name>
+        <url-pattern>/SubmitVoteServlet</url-pattern>
+    </servlet-mapping>
+
+    <!--Vote Page Servlet-->
+    <servlet>
+        <servlet-name>VotePageServlet</servlet-name>
+        <servlet-class>com.pollify.VotePageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>VotePageServlet</servlet-name>
+        <url-pattern>/votePage</url-pattern> <!-- This URL pattern can be changed as needed -->
+    </servlet-mapping>
 
     <!-- Default welcome file -->
     <welcome-file-list>
