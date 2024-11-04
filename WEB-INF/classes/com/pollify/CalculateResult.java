@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.mail.internet.*;
+import javax.mail.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,7 +47,8 @@ public class CalculateResult extends HttpServlet {
         String totalVoteQuery = "SELECT COUNT(*) AS vote_count FROM Votes WHERE voting_period_id = ?";
         String winnerUsernameQuery = "SELECT username FROM Users WHERE id = ?";
         String insertResultQuery = "INSERT INTO Results (voting_period_id, winner_candidate_id, total_votes, winner_percentage, turnout_ratio, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        String votingPeriodQuery = "SELECT start_time, end_time FROM VotingPeriods WHERE id = ?";
+        String votingPeriodQuery = "SELECT start_time, end_time FROM VotingPeriod WHERE id = ?";
+        String allEmails = "SELECT email FROM Users";
 
         try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
              PreparedStatement resultStatement = connection.prepareStatement(resultQuery);
@@ -53,7 +56,8 @@ public class CalculateResult extends HttpServlet {
              PreparedStatement totalVoteStatement = connection.prepareStatement(totalVoteQuery);
              PreparedStatement winnerUsernameStatement = connection.prepareStatement(winnerUsernameQuery);
              PreparedStatement insertResultStatement = connection.prepareStatement(insertResultQuery, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement votingPeriodStatement = connection.prepareStatement(votingPeriodQuery)
+             PreparedStatement votingPeriodStatement = connection.prepareStatement(votingPeriodQuery);
+             PreparedStatement allEmailsStatement = connection.prepareStatement(allEmails)
              ) {
 
             // Set the poll ID
@@ -124,31 +128,22 @@ public class CalculateResult extends HttpServlet {
             insertResultStatement.setString(7, endTime);   // Replace with actual end time
             insertResultStatement.executeUpdate();
 
-            // Retrieve declared_at timestamp from the generated keys
-            Timestamp declaredAt = null;
-            ResultSet generatedKeys = insertResultStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                declaredAt = generatedKeys.getTimestamp(1);
-            }
-
             // Prepare the result data for forwarding to FinalResult.jsp
-            Result pollResult = new Result(0, pollId, winnerCandidateId, totalVotes, winnerPercentage, turnoutRatio, "start_time_placeholder", "end_time_placeholder", declaredAt.toString(), winnerUsername);
+            Result pollResult = new Result(0, pollId, winnerCandidateId, totalVotes, winnerPercentage, turnoutRatio, startTime, endTime, winnerUsername);
 
-            request.setAttribute("pollResult", pollResult);
-            request.getRequestDispatcher("FinalResult.jsp").forward(request, response);
+            session.setAttribute("pollResult", pollResult);
 
             String emailBody = "<html><body style='font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;'>"
             + "<div style='max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);'>"
             + "<div style='background-color: #3b82f6; color: #ffffff; text-align: center; padding: 20px; font-size: 1.5em;'>Results Declared</div>"
             + "<div style='padding: 20px; text-align: center; line-height: 1.6;'>"
-            + "<p style='font-size: 2em; font-weight: bold; color: #3b82f6; margin: 10px 0;'>🎉 #{winnerName} 🎉</p>"
+            + "<p style='font-size: 2em; font-weight: bold; color: #3b82f6; margin: 10px 0;'> 🎉 #{winnerName} 🎉 </p>"
             + "<p style='font-size: 1.2em; color: #333;'>Voting Period ID: <span style='color: #3b82f6;'>#{votingId}</span></p>"
             + "<p>Total Votes: <span style='color: #3b82f6; font-weight: bold;'>#{totalVotes}</span></p>"
             + "<p>Winner Percentage: <span style='color: #3b82f6; font-weight: bold;'>#{winnerPercentage}%</span></p>"
             + "<p>Turnout Ratio: <span style='color: #3b82f6; font-weight: bold;'>#{turnoutRatio}%</span></p>"
             + "<p>Start Time: <span style='color: #3b82f6; font-weight: bold;'>#{startTime}</span></p>"
             + "<p>End Time: <span style='color: #3b82f6; font-weight: bold;'>#{endTime}</span></p>"
-            + "<p>Declared At: <span style='color: #3b82f6; font-weight: bold;'>#{declaredAt}</span></p>"
             + "</div>"
             + "<div style='background-color: #f9fafb; padding: 15px; text-align: center; font-size: 0.9em; color: #6b7280;'>"
             + "&copy; 2024 Voting System. All rights reserved."
@@ -163,11 +158,21 @@ public class CalculateResult extends HttpServlet {
             .replace("#{winnerPercentage}", String.valueOf(winnerPercentage))
             .replace("#{turnoutRatio}", String.valueOf(turnoutRatio))
             .replace("#{startTime}", startTime)
-            .replace("#{endTime}", endTime)
-            .replace("#{declaredAt}", declaredAt.toString());
+            .replace("#{endTime}", endTime);
 
-        // Use resultEmail as the email content to send
-        System.out.println(resultEmail);
+        // Send the result email to all users
+        ResultSet emails = allEmailsStatement.executeQuery();
+        while (emails.next()) {
+            String email = emails.getString("email");
+            try {
+                mailer.sendMailToUser(email, "Voting Result Declared",resultEmail);  // Send dynamic OTP via email
+            } catch (MessagingException e) {
+                e.printStackTrace(); // Handle error appropriately
+            }
+        }
+
+        response.sendRedirect("FinalResult.jsp");
+
 
         } catch (SQLException e) {
             e.printStackTrace();

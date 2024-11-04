@@ -10,11 +10,10 @@ public class Result {
     private double turnoutRatio;
     private String startTime;
     private String endTime;
-    private String declaredAt;
     private String winnerUsername;
 
     public Result(int id, int votingPeriodId, int winnerCandidateId, int totalVotes, double winnerPercentage,
-                   double turnoutRatio, String startTime, String endTime, String declaredAt, String winnerUsername) {
+                   double turnoutRatio, String startTime, String endTime, String winnerUsername) {
         this.id = id;
         this.votingPeriodId = votingPeriodId;
         this.winnerCandidateId = winnerCandidateId;
@@ -23,7 +22,6 @@ public class Result {
         this.turnoutRatio = turnoutRatio;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.declaredAt = declaredAt;
         this.winnerUsername = winnerUsername;
     }
 
@@ -36,6 +34,5 @@ public class Result {
     public double getTurnoutRatio() { return turnoutRatio; }
     public String getStartTime() { return startTime; }
     public String getEndTime() { return endTime; }
-    public String getDeclaredAt() { return declaredAt; }
     public String getWinnerUsername() { return winnerUsername; }
 }

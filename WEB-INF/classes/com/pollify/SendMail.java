@@ -28,11 +28,11 @@ public class SendMail {
     private void draftEmail(String recipient, String subject, String body) throws MessagingException {
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        mimeMessage.setSubject(subject);
+        mimeMessage.setSubject(subject, "UTF-8");
         MimeMultipart multipart = new MimeMultipart();
 
         MimeBodyPart bodyPart = new MimeBodyPart();
-        bodyPart.setContent(body, "text/html");
+        bodyPart.setContent(body, "text/html; charset=UTF-8");
         multipart.addBodyPart(bodyPart);
         mimeMessage.setContent(multipart);
     }
