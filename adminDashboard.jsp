@@ -63,10 +63,10 @@
                 <li><a href="#" class="active">
                     <i class="fas fa-calendar"></i> Set Voting Period
                 </a></li>
-                <li><a href="declareResult" onclick="loadContent('declareResult')">
+                <li><a href="pendingResult">
                     <i class="fas fa-trophy"></i> Declare Result
                 </a></li>
-                <li><a href="approveCandidate" onclick="loadContent('approveCandidate')">
+                <li><a href="approveCandidate">
                     <i class="fas fa-thumbs-up"></i> Approve Candidate
                 </a></li>
                 <li><a href="viewVotingPeriods">

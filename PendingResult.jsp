@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="com.pollify.CandidateApplication" %>
+<%@ page import="com.pollify.VotingPeriod" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%
     if (session != null && session.getAttribute("username") != null) {
@@ -40,7 +40,6 @@
         .container {
             width: 100%;
             backdrop-filter: blur(var(--blur));
-            text-align: center;
             color: var(--text-color);
         }
 
@@ -170,10 +169,10 @@
             <li><a href="adminDashboard.jsp" >
                 <i class="fas fa-calendar"></i> Set Voting Period
             </a></li>
-            <li><a href="pendingResult">
+            <li><a href="#" class="active">
                 <i class="fas fa-trophy"></i> Declare Result
             </a></li>
-            <li><a href="#" class="active"">
+            <li><a href="approveCandidate">
                 <i class="fas fa-thumbs-up"></i> Approve Candidate
             </a></li>
             <li><a href="viewVotingPeriods">
@@ -201,25 +200,23 @@
             </div>
         </div>
 
-    <h2>Approve Candidates</h2>
+    <h2>Declare Pending Results</h2>
 
     <%
     // Retrieve the list of candidate applications from the request
-    List<CandidateApplication> applications = (List<CandidateApplication>) request.getAttribute("candidateApplications");
-    if (applications != null && !applications.isEmpty()) {
-        for (CandidateApplication app : applications) { // Changed 'application' to 'app'
+    List<VotingPeriod> votingPeriods = (List<VotingPeriod>) request.getAttribute("votingPeriods");
+    if (votingPeriods != null && !votingPeriods.isEmpty()) {
+        for (VotingPeriod vp : votingPeriods) {
 %>
         <div class="candidate-card">
             <div class="candidate-info">
                 <div>
-                    <p class="candidate-name"><%= app.getUsername() %></p> <!-- Use getUsername() method -->
-                    <p class="candidate-description"><%= app.getEmail() %></p> <!-- Use getEmail() method -->
-                    <p class="candidate-description"><%= app.getApplicationDate() %></p> <!-- Use getApplicationDate() method -->
+                    <p class="candidate-name"> 🗳️ Voting Period Id : <%= vp.getId() %></p> <!-- Use getUsername() method -->
+                    <p class="candidate-description">Voting Period from <%= vp.getStartTime() %> to <%= vp.getEndTime() %></p> 
                 </div>
             </div>
             <div class="action-buttons">
-                <button class="approve-btn" onclick="approveCandidate('<%= app.getUsername() %>', '<%= app.getEmail() %>')">Approve</button>
-                <button class="reject-btn" onclick="rejectCandidate('<%= app.getUsername() %>', '<%= app.getEmail() %>')">Reject</button>
+                <button class="approve-btn" onclick="approveCandidate('<%= vp.getId()%>')">Calculate Result</button>
             </div>
         </div>
 <%
@@ -227,7 +224,7 @@
     } else {
 %>
     <div>
-        <p>No Pending Requests Found.</p>
+        <p>No Pending Voting Periods Found.</p>
     </div>
 <%
     }
@@ -236,14 +233,9 @@
 </div>
 </div>
 <script>
-    function approveCandidate(username, email) {
+    function approveCandidate(pollId) {
         // Redirect to the approve servlet with the username and email as query parameters
-        window.location.href = 'approved?username=' + encodeURIComponent(username) + '&email=' + encodeURIComponent(email);
-    }
-
-    function rejectCandidate(username, email) {
-        // Redirect to the reject servlet with the username and email as query parameters
-        window.location.href = 'rejected?username=' + encodeURIComponent(username) + '&email=' + encodeURIComponent(email);
+        window.location.href = 'calculateResult?pollId=' + encodeURIComponent(pollId) ;
     }
 </script>
 

@@ -69,7 +69,7 @@
                 <li><a href="adminDashboard.jsp">
                     <i class="fas fa-calendar"></i> Set Voting Period
                 </a></li>
-                <li><a href="declareResult" onclick="loadContent('declareResult')">
+                <li><a href="pendingResult" onclick="loadContent('declareResult')">
                     <i class="fas fa-trophy"></i> Declare Result
                 </a></li>
                 <li><a href="approveCandidate" onclick="loadContent('approveCandidate')">
