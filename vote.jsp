@@ -229,7 +229,7 @@ header input[type="text"]:focus {
         <ul>
             <li><a href="#" class="active"><i class="fas fa-check-circle"></i>Vote</a></li>
             <li><a href="#"><i class="fa-solid fa-person-booth"></i>Register for Voting Period</a></li>
-            <li><a href="CandidateList.jsp"><i class="fas fa-list"></i> Candidate List</a></li>
+            <li><a href="viewCandidate"><i class="fas fa-list"></i> Candidate List</a></li>
             <li><a href="viewResults"><i class="fas fa-chart-bar"></i> Result</a></li>
             <li><a href="candidateManifesto"><i class="fas fa-book"></i> Manifesto</a></li>
         </ul>
